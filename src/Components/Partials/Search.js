@@ -1,15 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-const Search = () => {
-  return (
-    <div className="input-group mb-3">
-      <input type="text" className="form-control" placeholder="City name e.g Dhaka" />
-      
-      <div className="input-group-append">
-        <button className="btn btn-outline-secondary" type="button">Search</button>
-      </div>
-    </div>
-  )
+class Search extends Component {
+  searchTextRef = React.createRef();
+
+  handleSubmit = event => {
+    const { history } = this.props;
+    event.preventDefault();
+
+    history.push(`/search/${this.searchTextRef.current.value.toLowerCase()}`);
+  };
+
+  render() {
+    const { text } = this.props;
+
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div className="input-group mb-3">
+          <input ref={this.searchTextRef} type="text" className="form-control" placeholder={text} />
+
+          <div className="input-group-append">
+            <button className="btn btn-outline-secondary" type="button" onClick={this.handleSubmit}>Search</button>
+          </div>
+        </div>
+      </form>
+    );
+  }
 }
+
+Search.defaultProps = {
+  text: 'City name e.g Dhaka',
+};
+
+Search.propTypes = {
+  text: PropTypes.string,
+  history: PropTypes.object.isRequired,
+};
 
 export default Search;

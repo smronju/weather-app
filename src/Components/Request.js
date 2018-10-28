@@ -1,16 +1,16 @@
 import axios from 'axios';
 
 class Request {
-  constructor () {
+  constructor() {
     axios.defaults.baseURL = 'http://dev.smronju:8888/wheather.php';
   }
 
-  getCityId(city) {
+  getCityId(cityName) {
 		return new Promise((resolve, reject) => {
 
-			axios.get(`?command=search&keyword=${city}`)
+			axios.get(`?command=search&keyword=${cityName}`)
 				.then(({data}) => {
-          let city = data[0];
+          const city = data[0];
           
 					if(city){
 						resolve(city.woeid);
@@ -23,7 +23,6 @@ class Request {
 				});
 		});
 	}
-
 
 	getWeatherInfoByWoeid(woeid) {
 		return new Promise((resolve, reject) => {
@@ -40,6 +39,36 @@ class Request {
 			.catch(error => {
 				reject(error);
 			})
+		});
+	}
+
+	getWeatherDetails(woeid) {
+		return new Promise((resolve, reject) => {
+			axios.get(`?command=location&woeid=${woeid}`)
+			.then(({data}) => {
+				const wheather = data;
+
+				if(wheather){
+					resolve(wheather);
+				}
+
+				reject(false);
+			})
+			.catch(error => {
+				reject(error);
+			})
+		});
+	}
+
+	getWeatherBySearch(text) {
+		return new Promise((resolve, reject) => {
+
+			axios.get(`?command=search&keyword=${text}`)
+				.then(({data}) => {
+					const cities = data;
+
+					resolve(cities);
+				});
 		});
 	}
 
