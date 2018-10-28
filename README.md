@@ -1,4 +1,4 @@
-# codeline-weather
+# weather-app
 
 > A Sample Weather App Using ReactJS Framework and data from [MetaWheather](https://www.metaweather.com/api/)
 
